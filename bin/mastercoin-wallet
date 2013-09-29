@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+$:.unshift( File.expand_path("../../lib", __FILE__) )
+require 'mastercoin-wallet'
+
+app = Qt::Application.new(ARGV)
+
+app.setWindowIcon(Qt::Icon.new(":/logo.svg"))
+
+if MastercoinWallet.config.has_key?(:private_key)
+  dialog = MastercoinWallet::MainWindow.new
+  dialog.setMinimumSize(570, 300)
+  dialog.exec
+else
+  dialog = MastercoinWallet::FirstRunWindow.new
+  dialog.exec
+end
