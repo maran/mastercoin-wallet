@@ -17,30 +17,13 @@ Jeweler::Tasks.new do |gem|
   gem.name = "mastercoin-wallet"
   gem.homepage = "http://github.com/maran/mastercoin-wallet"
   gem.license = "CCPL"
-  gem.summary = %Q{Wallet implementation of the Mastercoin protocol}
-  gem.description = %Q{Mastercoin wallet using QT binding to create a useful gui wallet}
+  gem.summary = %Q{Wallet implementation for the Mastercoin protocol}
+  gem.description = %Q{Mastercoin wallet using QT bindings to create a useful gui wallet}
   gem.email = "maran.hidskes@gmail.com"
   gem.authors = ["Maran"]
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
-
-require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-end
-
-require 'rcov/rcovtask'
-Rcov::RcovTask.new do |test|
-  test.libs << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-  test.rcov_opts << '--exclude "gems/*"'
-end
-
-task :default => :test
 
 require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
