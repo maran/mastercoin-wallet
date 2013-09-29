@@ -1,6 +1,26 @@
-= mastercoin-wallet
+= Mastercoin wallet
 
-Description goes here.
+Mastercoin wallet implementation in Ruby using QT bindings.
+
+== Installation instructions 
+
+* gem install mastercoin-wallet
+* mastercoin-wallet
+
+== First run configuration
+The first time you run the wallet it will ask you for a password and your Mastercoin private key. If you use Bitcoin-qt as your main wallet you can find the 
+private key by going to help->debug window->console. In this window you type dumpprivkey followed by your Mastercoin address to retrieve the private key.
+
+Please note that your private key should remain private. If somebody somehow aquires this key then can spend your Bitcoin and Mastercoin please be diligent when transferring your private key.
+
+== Privacy
+
+This client uses Mastercoin-explorer.com to lookup your balance and transaction information and to broadcast new transactions. It does not relay any
+private information like your private key that information is kept encrypted inside your mastercoin-wallet config file and is never transmitted to a third-party.
+
+== Alpha warning
+
+This is the initial version of this client, please only use if it you know and accept the risks that come with using w.i.p. applications.
 
 == Contributing to mastercoin-wallet
  

@@ -52,11 +52,12 @@ module MastercoinWallet
     def send_payment
       data_key = Mastercoin::SimpleSend.new(currency_id: 2, amount: @amount.to_f * 1e8).encode_to_compressed_public_key
 
-      fee = BigDecimal.new("0.0001") * 1e8
-      tx_amount = BigDecimal.new("0.00006") * 1e8
-      mastercoin_tx = (4 * tx_amount) * 1e8
+      fee = BigDecimal.new("0.0001")
+      tx_amount = BigDecimal.new("0.00006")
+      mastercoin_tx = (4 * tx_amount)
 
-      result = MastercoinWallet.config.spendable_outputs.find{|x| x[:value].to_f > mastercoin_tx}
+      result = MastercoinWallet.config.spendable_outputs.find{|x| BigDecimal.new(x[:value]) > (fee + mastercoin_tx)}
+
       if result.is_a?(Array)
         output = result[0]
       else
@@ -88,7 +89,7 @@ module MastercoinWallet
         rescue ArgumentError
           begin
             key = Bitcoin::Key.new(priv_key)
-          rescue ArgumentError
+          rescue ArgumentError, OpenSSL::BNError
               Qt::MessageBox.information(self, tr("Could not send payment."),
                                          tr("Could not send payment, wrong password."))
             return
@@ -104,7 +105,7 @@ module MastercoinWallet
 
           # Change address
           t.output do |o|
-            o.value change_amount
+            o.value change_amount * 1e8
 
             o.script do |s|
               s.type :address
@@ -114,7 +115,7 @@ module MastercoinWallet
 
           # Receiving address
           t.output do |o|
-            o.value tx_amount
+            o.value tx_amount * 1e8
 
             o.script do |s|
               s.type :address
@@ -124,7 +125,7 @@ module MastercoinWallet
 
           # Exodus address
           t.output do |o|
-            o.value tx_amount
+            o.value tx_amount * 1e8
 
             o.script do |s|
               s.type :address
@@ -134,11 +135,11 @@ module MastercoinWallet
 
           # Data address
           t.output do |o|
-            o.value (tx_amount) * 2
+            o.value (tx_amount) * 2 * 1e8
 
             o.script do |s|
               s.type :multisig
-              s.recipient 1, key.pub_compressed, data_key
+              s.recipient 1, key.pub_uncompressed, data_key
             end
           end
         end
