@@ -2,10 +2,22 @@
 
 Mastercoin wallet implementation in Ruby using QT bindings.
 
-== Installation instructions 
+== Dependencies
+* Ruby 1.9.2 or higher
+* Rubygems
+* QT 4
 
-* gem install mastercoin-wallet
-* mastercoin-wallet
+Dependencies will differ based on your operating system.
+
+=== OS X 
+Install {homebrew}[http://brew.sh/] if you haven't got it yet. 
+
+* brew install qt
+
+Check your ruby version using ruby -v. If the version is lower then 1.9.2 install {rvm}[http://rvm.io/] and ruby 1.9.3.
+
+== Installation ==
+Once the depencies are installed you can just do gem install mastercoin-wallet to install the wallet. Start it by issuing mastercoin-wallet from a terminal.
 
 == First run configuration
 The first time you run the wallet it will ask you for a password and your Mastercoin private key. If you use Bitcoin-qt as your main wallet you can find the 
