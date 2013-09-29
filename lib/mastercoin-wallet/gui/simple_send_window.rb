@@ -54,9 +54,9 @@ module MastercoinWallet
 
       fee = BigDecimal.new("0.0001") * 1e8
       tx_amount = BigDecimal.new("0.00006") * 1e8
-      mastercoin_tx = (4 * tx_amount) * 1e8
+      mastercoin_tx = (4 * tx_amount)
 
-      result = MastercoinWallet.config.spendable_outputs.find{|x| x[:value].to_f > mastercoin_tx}
+      result = MastercoinWallet.config.spendable_outputs.find{|x| (BigDecimal.new(x[:value]) * 1e8) > mastercoin_tx}
       if result.is_a?(Array)
         output = result[0]
       else
@@ -88,7 +88,7 @@ module MastercoinWallet
         rescue ArgumentError
           begin
             key = Bitcoin::Key.new(priv_key)
-          rescue ArgumentError
+          rescue ArgumentError, OpenSSL::BNError
               Qt::MessageBox.information(self, tr("Could not send payment."),
                                          tr("Could not send payment, wrong password."))
             return
