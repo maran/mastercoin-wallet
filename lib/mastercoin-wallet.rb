@@ -35,8 +35,8 @@ module MastercoinWallet
     @@network ||= MastercoinWallet::Network.new
   end
 
-  def self.init_logger(level = Logger::INFO)
-    @@log ||= Logger.new(STDOUT)
+  def self.init_logger(level = Logger::DEBUG)
+    @@log ||= Logger.new(CONFIG_PATH + "/debug.log")
     @@log.level = level
     @@log
   end
