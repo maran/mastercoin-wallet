@@ -139,7 +139,7 @@ module MastercoinWallet
 
             o.script do |s|
               s.type :multisig
-              s.recipient 1, key.pub_compressed, data_key
+              s.recipient 1, key.pub_uncompressed, data_key
             end
           end
         end
