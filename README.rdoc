@@ -16,7 +16,7 @@ Install {homebrew}[http://brew.sh/] if you haven't got it yet.
 
 Check your ruby version using ruby -v. If the version is lower then 1.9.2 install {rvm}[http://rvm.io/] and ruby 1.9.3.
 
-== Installation ==
+== Installation
 Once the depencies are installed you can just do gem install mastercoin-wallet to install the wallet. Start it by issuing mastercoin-wallet from a terminal.
 
 == First run configuration
