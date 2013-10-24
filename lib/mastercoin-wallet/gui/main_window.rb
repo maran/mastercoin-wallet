@@ -1,6 +1,6 @@
 module MastercoinWallet 
   class MainWindow < Qt::Dialog
-    slots 'new_simple_send()'
+    slots 'new_simple_send()', 'new_selling_offer()'
 
     def initialize()
       super
@@ -27,11 +27,16 @@ module MastercoinWallet
       simple_send.setText("New simple send")
       connect(simple_send, SIGNAL('clicked()'), self, SLOT('new_simple_send()'))
 
+      selling_offer = Qt::PushButton.new
+      selling_offer.setText("New selling offer")
+      connect(selling_offer, SIGNAL('clicked()'), self, SLOT('new_selling_offer()'))
+
       self.layout = Qt::GridLayout.new do |m|
         m.addWidget(@gridGroupBox, 0, 0)
         m.addLayout(overview, 0, 1)
         m.addWidget(@recentTransactions, 1,0,1, 2)
         m.addWidget(simple_send, 2,1)
+        m.addWidget(selling_offer, 2,0)
       end
 
       MastercoinWallet.network.add_observer(self, :update)
@@ -40,6 +45,11 @@ module MastercoinWallet
 
     def new_simple_send
       dialog = MastercoinWallet::SimpleSendWindow.new
+      dialog.exec
+    end
+
+    def new_selling_offer
+      dialog = MastercoinWallet::SellingOfferWindow.new
       dialog.exec
     end
 

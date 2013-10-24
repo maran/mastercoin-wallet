@@ -54,7 +54,7 @@ module MastercoinWallet
 
       fee = BigDecimal.new("0.0001")
       tx_amount = BigDecimal.new("0.00006")
-      mastercoin_tx = (4 * tx_amount)
+      mastercoin_tx = (3 * tx_amount)
 
       result = MastercoinWallet.config.spendable_outputs.find{|x| BigDecimal.new(x[:value]) > (fee + mastercoin_tx)}
 
@@ -135,7 +135,7 @@ module MastercoinWallet
 
           # Data address
           t.output do |o|
-            o.value (tx_amount) * 2 * 1e8
+            o.value (tx_amount) * 1e8
 
             o.script do |s|
               s.type :multisig
@@ -152,6 +152,7 @@ module MastercoinWallet
 
         MastercoinWallet.log.debug("If you want to send it by Bitcoind use this")
         MastercoinWallet.log.debug(transaction_hash)
+        MastercoinWallet.log.debug("Required fee: #{tx.calculate_minimum_fee} - Multisig size: #{tx.outputs.last.script.bytesize}")
 
         remote_transaction = Transaction.new(tx.to_hash["hash"], tx.to_json)
         response = remote_transaction.create!
