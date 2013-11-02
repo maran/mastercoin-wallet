@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Maran"]
-  s.date = "2013-09-29"
+  s.date = "2013-11-02"
   s.description = "Mastercoin wallet using QT bindings to create a useful gui wallet"
   s.email = "maran.hidskes@gmail.com"
   s.executables = ["mastercoin-wallet"]
@@ -34,9 +34,12 @@ Gem::Specification.new do |s|
     "lib/mastercoin-wallet/gui/first_run_window.ui",
     "lib/mastercoin-wallet/gui/images.rb",
     "lib/mastercoin-wallet/gui/main_window.rb",
+    "lib/mastercoin-wallet/gui/selling_offer_window.rb",
+    "lib/mastercoin-wallet/gui/selling_offer_window.ui",
     "lib/mastercoin-wallet/gui/simple_send_window.rb",
     "lib/mastercoin-wallet/gui/simple_send_window.ui",
     "lib/mastercoin-wallet/gui/ui_first_run.rb",
+    "lib/mastercoin-wallet/gui/ui_selling_offer.rb",
     "lib/mastercoin-wallet/gui/ui_simple_send.rb",
     "lib/mastercoin-wallet/models/address.rb",
     "lib/mastercoin-wallet/models/transaction.rb",
@@ -61,7 +64,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<httparty>, [">= 0"])
       s.add_runtime_dependency(%q<active_support>, [">= 0"])
       s.add_runtime_dependency(%q<bitcoin-ruby>, ["~> 0.0.1"])
-      s.add_runtime_dependency(%q<mastercoin-ruby>, [">= 0"])
+      s.add_runtime_dependency(%q<mastercoin-ruby>, ["= 0.0.4"])
       s.add_runtime_dependency(%q<ffi>, [">= 0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.7"])
@@ -70,7 +73,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<httparty>, [">= 0"])
       s.add_dependency(%q<active_support>, [">= 0"])
       s.add_dependency(%q<bitcoin-ruby>, ["~> 0.0.1"])
-      s.add_dependency(%q<mastercoin-ruby>, [">= 0"])
+      s.add_dependency(%q<mastercoin-ruby>, ["= 0.0.4"])
       s.add_dependency(%q<ffi>, [">= 0"])
       s.add_dependency(%q<bundler>, ["~> 1.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.7"])
@@ -80,7 +83,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<httparty>, [">= 0"])
     s.add_dependency(%q<active_support>, [">= 0"])
     s.add_dependency(%q<bitcoin-ruby>, ["~> 0.0.1"])
-    s.add_dependency(%q<mastercoin-ruby>, [">= 0"])
+    s.add_dependency(%q<mastercoin-ruby>, ["= 0.0.4"])
     s.add_dependency(%q<ffi>, [">= 0"])
     s.add_dependency(%q<bundler>, ["~> 1.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.7"])

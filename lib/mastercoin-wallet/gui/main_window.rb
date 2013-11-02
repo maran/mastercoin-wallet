@@ -12,7 +12,7 @@ module MastercoinWallet
 
       @recentTransactions = Qt::TreeWidget.new
       @recentTransactions.setColumnCount(2)
-      @recentTransactions.setHeaderLabels(["Address", "Amount", "Date"])
+      @recentTransactions.setHeaderLabels(["Address", "Amount", "Date", "Currency ID"])
 
       @recentTransactions.setColumnWidth(0,300)
       @recentTransactions.setColumnWidth(1,50)
@@ -36,7 +36,7 @@ module MastercoinWallet
         m.addLayout(overview, 0, 1)
         m.addWidget(@recentTransactions, 1,0,1, 2)
         m.addWidget(simple_send, 2,1)
-        m.addWidget(selling_offer, 2,0)
+        #m.addWidget(selling_offer, 2,0)
       end
 
       MastercoinWallet.network.add_observer(self, :update)
@@ -54,9 +54,16 @@ module MastercoinWallet
     end
 
     def update(status = true)
-      puts "update"
       load_transactions
       update_balance
+    end
+
+    def coin_name(currency_id)
+      if currency_id.to_s == "1"
+        "MSC"
+      else
+        "Test MSC"
+      end
     end
 
     def load_transactions
@@ -66,6 +73,18 @@ module MastercoinWallet
           row.setText(0, x["address"])
           row.setText(1, x["amount"])
           row.setText(2, x["tx_date"])
+          row.setText(3, coin_name(x["currency_id"]))
+          @rows << row
+        end
+      end
+
+      if MastercoinWallet.config.has_key?(:exodus_transactions)
+        MastercoinWallet.config.exodus_transactions.each do |x|
+          row = Qt::TreeWidgetItem.new
+          row.setText(0, x["address"])
+          row.setText(1, x["amount"])
+          row.setText(2, x["tx_date"])
+          row.setText(3,coin_name(x["currency_id"]))
           @rows << row
         end
       end
@@ -76,10 +95,10 @@ module MastercoinWallet
           row.setText(0, x["receiving_address"])
           row.setText(1, x["amount"])
           row.setText(2, x["tx_date"])
+          row.setText(3,coin_name(x["currency_id"]))
           @rows << row
         end
       end
-
       @recentTransactions.insertTopLevelItems(0, @rows)
     end
 

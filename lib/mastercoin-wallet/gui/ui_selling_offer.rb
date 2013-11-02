@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'selling_offer_window.ui'
 **
-** Created: Thu Oct 24 14:58:04 2013
+** Created: Thu Oct 24 15:06:35 2013
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -20,7 +20,7 @@ class Ui_SellingOffer
     attr_reader :label_4
     attr_reader :currency_box
     attr_reader :label_2
-    attr_reader :lineEdit
+    attr_reader :time_input
     attr_reader :btc_amount_input
     attr_reader :label_7
     attr_reader :label
@@ -86,10 +86,10 @@ class Ui_SellingOffer
 
     @gridLayout.addWidget(@label_2, 6, 0, 1, 1)
 
-    @lineEdit = Qt::LineEdit.new(@verticalLayoutWidget)
-    @lineEdit.objectName = "lineEdit"
+    @time_input = Qt::LineEdit.new(@verticalLayoutWidget)
+    @time_input.objectName = "time_input"
 
-    @gridLayout.addWidget(@lineEdit, 5, 1, 1, 1)
+    @gridLayout.addWidget(@time_input, 5, 1, 1, 1)
 
     @btc_amount_input = Qt::LineEdit.new(@verticalLayoutWidget)
     @btc_amount_input.objectName = "btc_amount_input"

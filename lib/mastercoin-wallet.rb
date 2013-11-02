@@ -21,6 +21,7 @@ module MastercoinWallet
   autoload :SellingOfferWindow, 'mastercoin-wallet/gui/selling_offer_window'
   autoload :Config, 'mastercoin-wallet/config'
   autoload :Network, 'mastercoin-wallet/network'
+  autoload :Builder, 'mastercoin-wallet/builder'
 
   autoload :Ui_FirstRunWindow, 'mastercoin-wallet/gui/ui_first_run'
   autoload :Ui_SimpleSend, 'mastercoin-wallet/gui/ui_simple_send'

@@ -1,6 +1,7 @@
 module MastercoinWallet 
   class SimpleSendWindow < Qt::Dialog
     include Bitcoin::Builder
+    include MastercoinWallet::Builder
 
     slots 'on_amount_input_textChanged(const QString&)',
           'on_address_input_textChanged(const QString&)',
@@ -19,10 +20,6 @@ module MastercoinWallet
 
       @submit = findChild(Qt::PushButton, "submit_button")
 
-      @amount_input.setText("1.337")
-      @address_input.setText("1J2svn2GxYx9LPrpCLFikmzn9kkrXBrk8B")
-    
-
       @amount_input.validator = Qt::DoubleValidator.new(0.00000001, 10000,8, @amount_input)
 
 
@@ -40,7 +37,7 @@ module MastercoinWallet
     end
 
     def on_address_input_textChanged(address)
-      @address = address
+      @receiving_address = address
       check_valid
     end
 
@@ -50,125 +47,14 @@ module MastercoinWallet
     end
 
     def send_payment
-      data_key = Mastercoin::SimpleSend.new(currency_id: 2, amount: @amount.to_f * 1e8).encode_to_compressed_public_key
-
-      fee = BigDecimal.new("0.0001")
-      tx_amount = BigDecimal.new("0.00006")
-      mastercoin_tx = (3 * tx_amount)
-
-      result = MastercoinWallet.config.spendable_outputs.find{|x| BigDecimal.new(x[:value]) > (fee + mastercoin_tx)}
-
-      if result.is_a?(Array)
-        output = result[0]
-      else
-        output = result
-      end
-
-      unless output
-          Qt::MessageBox.critical(self, tr("Could not send transaction"),
-                                 tr("It appears there are no spendable outputs for this address that are big enough to transmit this transaction. Please consolidate some coins and send them to your Mastercoin address."))
-          return
-      end
-
-      change_amount = BigDecimal.new(output["value"]) - fee - mastercoin_tx
-
-      tx = MastercoinWallet.config.bitcoin_transactions.find{|x| x["hash"] == output["prev_out"]["hash"]}
-      if tx.is_a?(Array)
-        tx = tx[0]
-      end
-
-      begin
-        priv_key = MastercoinWallet.config.get_encrypted_key(:private_key, @password)
-      rescue ArgumentError
-        Qt::MessageBox.information(self, tr("Could not send payment."),
-                                   tr("Could not send payment, wrong password."))
-        return
-      end
-        begin
-          key = Bitcoin::Key.from_base58(priv_key)
-        rescue ArgumentError
-          begin
-            key = Bitcoin::Key.new(priv_key)
-          rescue ArgumentError, OpenSSL::BNError
-              Qt::MessageBox.information(self, tr("Could not send payment."),
-                                         tr("Could not send payment, wrong password."))
-            return
-          end
-        end
-
-        tx = build_tx do |t|
-          t.input do |i|
-            i.prev_out Bitcoin::Protocol::Tx.from_hash(tx)
-            i.prev_out_index output["prev_out"]["n"] 
-            i.signature_key key
-          end
-
-          # Change address
-          t.output do |o|
-            o.value change_amount * 1e8
-
-            o.script do |s|
-              s.type :address
-              s.recipient MastercoinWallet.config.address
-            end
-          end
-
-          # Receiving address
-          t.output do |o|
-            o.value tx_amount * 1e8
-
-            o.script do |s|
-              s.type :address
-              s.recipient @address
-            end
-          end
-
-          # Exodus address
-          t.output do |o|
-            o.value tx_amount * 1e8
-
-            o.script do |s|
-              s.type :address
-              s.recipient Mastercoin::EXODUS_ADDRESS
-            end
-          end
-
-          # Data address
-          t.output do |o|
-            o.value (tx_amount) * 1e8
-
-            o.script do |s|
-              s.type :multisig
-              s.recipient 1, key.pub_uncompressed, data_key
-            end
-          end
-        end
-
-        tx = Bitcoin::Protocol::Tx.new( tx.to_payload )
-
-        MastercoinWallet.log.debug("TX Made: #{tx.to_hash}")
-
-        transaction_hash = tx.to_payload.unpack("H*").first
-
-        MastercoinWallet.log.debug("If you want to send it by Bitcoind use this")
-        MastercoinWallet.log.debug(transaction_hash)
-        MastercoinWallet.log.debug("Required fee: #{tx.calculate_minimum_fee} - Multisig size: #{tx.outputs.last.script.bytesize}")
-
-        remote_transaction = Transaction.new(tx.to_hash["hash"], tx.to_json)
-        response = remote_transaction.create!
-        if response.parsed_response.keys.include?("error")
-          Qt::MessageBox.critical(self, tr("Could not relay transaction"),
-                                 tr("The remote server could not transmit your transaction at this moment."))
-          return
-        else
-          Qt::MessageBox.information(self, tr("Transaction send"),
-                                 tr("Your transaction has been offered to the relay server, it should show up within 10 minutes."))
-        end
-        close()
+      data_key = Mastercoin::SimpleSend.new(currency_id: 2, amount: @amount.to_f * 1e8).encode_to_compressed_public_key(MastercoinWallet.config.address)
+      MastercoinWallet.log.debug("Mastercoin key: #{data_key}")
+      create_transaction_with_keys(data_key)
+      close()
     end
 
     def check_valid
-      unless Bitcoin::valid_address?(@address)
+      unless Bitcoin::valid_address?(@receiving_address)
         invalid! 
         return
       end
