@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
     "bin/mastercoin-wallet",
     "lib/.DS_Store",
     "lib/mastercoin-wallet.rb",
+    "lib/mastercoin-wallet/builder.rb",
     "lib/mastercoin-wallet/config.rb",
     "lib/mastercoin-wallet/gui/first_run_window.rb",
     "lib/mastercoin-wallet/gui/first_run_window.ui",
@@ -53,37 +54,37 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/maran/mastercoin-wallet"
   s.licenses = ["CCPL"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.24"
+  s.rubygems_version = "1.8.25"
   s.summary = "Wallet implementation for the Mastercoin protocol"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<mastercoin-ruby>, ["= 0.0.4"])
       s.add_runtime_dependency(%q<qtbindings>, [">= 0"])
       s.add_runtime_dependency(%q<httparty>, [">= 0"])
       s.add_runtime_dependency(%q<active_support>, [">= 0"])
       s.add_runtime_dependency(%q<bitcoin-ruby>, ["~> 0.0.1"])
-      s.add_runtime_dependency(%q<mastercoin-ruby>, ["= 0.0.4"])
       s.add_runtime_dependency(%q<ffi>, [">= 0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.7"])
     else
+      s.add_dependency(%q<mastercoin-ruby>, ["= 0.0.4"])
       s.add_dependency(%q<qtbindings>, [">= 0"])
       s.add_dependency(%q<httparty>, [">= 0"])
       s.add_dependency(%q<active_support>, [">= 0"])
       s.add_dependency(%q<bitcoin-ruby>, ["~> 0.0.1"])
-      s.add_dependency(%q<mastercoin-ruby>, ["= 0.0.4"])
       s.add_dependency(%q<ffi>, [">= 0"])
       s.add_dependency(%q<bundler>, ["~> 1.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.7"])
     end
   else
+    s.add_dependency(%q<mastercoin-ruby>, ["= 0.0.4"])
     s.add_dependency(%q<qtbindings>, [">= 0"])
     s.add_dependency(%q<httparty>, [">= 0"])
     s.add_dependency(%q<active_support>, [">= 0"])
     s.add_dependency(%q<bitcoin-ruby>, ["~> 0.0.1"])
-    s.add_dependency(%q<mastercoin-ruby>, ["= 0.0.4"])
     s.add_dependency(%q<ffi>, [">= 0"])
     s.add_dependency(%q<bundler>, ["~> 1.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.7"])
