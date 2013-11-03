@@ -1,4 +1,4 @@
-require 'qt'
+require 'Qt'
 require 'httparty'
 require 'qtuitools'
 require 'openssl'

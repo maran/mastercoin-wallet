@@ -7,6 +7,8 @@ Mastercoin wallet implementation in Ruby using QT bindings.
 * Rubygems
 * QT 4
 
+Check your ruby version using ruby -v. If the version is lower then 1.9.2 or not installed yet, install {rvm}[http://rvm.io/] and ruby 1.9.3.
+
 Dependencies will differ based on your operating system.
 
 === OS X 
@@ -14,7 +16,10 @@ Install {homebrew}[http://brew.sh/] if you haven't got it yet.
 
 * brew install qt
 
-Check your ruby version using ruby -v. If the version is lower then 1.9.2 install {rvm}[http://rvm.io/] and ruby 1.9.3.
+=== Debian/Ubuntu
+These instructions might not be complete. Additional instructions welcome.
+
+* apt-get install libqt4-gui libqt4-dev cake
 
 == Installation
 Once the depencies are installed you can just do gem install mastercoin-wallet to install the wallet. Start it by issuing mastercoin-wallet from a terminal.
