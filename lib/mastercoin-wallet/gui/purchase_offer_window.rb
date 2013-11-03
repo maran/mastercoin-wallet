@@ -5,7 +5,7 @@ module MastercoinWallet
 
     slots 'send_transaction()'
 
-    def initialize(parent=nil)
+    def initialize(parent=nil, options)
       super(parent)
 
       @ui = Ui_PurchaseOffer.new
@@ -15,6 +15,10 @@ module MastercoinWallet
       @password_input = findChild(Qt::LineEdit, "password_input")
       @address_input = findChild(Qt::LineEdit, "address_input")
       @fee_input = findChild(Qt::LineEdit, "fee_input")
+
+      @amount_input.text = options[:available] if options.has_key?(:available)
+      @address_input.text = options[:address] if options.has_key?(:address)
+      @fee_input.text = options[:fee] if options.has_key?(:fee)
 
       @submit = findChild(Qt::PushButton, "submit_button")
 

@@ -1,51 +1,93 @@
 module MastercoinWallet 
   class MainWindow < Qt::Dialog
-    slots 'new_simple_send()', 'new_selling_offer()', 'new_purchase_offer()'
+    slots 'new_simple_send()', 'new_selling_offer()', 'new_purchase_offer()', 'create_order(QTreeWidgetItem *, int)', 'sync()', 'create_bitcoin_tx(QTreeWidgetItem *, int)'
+
+    def create_order(item, position)
+      address = item.text(0)
+      available = item.text(2)
+      fee = item.text(4)
+      new_purchase_offer({address: address, available: available, fee: fee})
+    end
+
+    def create_bitcoin_tx(item, position)
+      address = item.text(0)
+      bitcoin_amount = item.text(2)
+      if item.text(4) == "Waiting on Payment"
+        new_bitcoin_payment({address: address, bitcoin_amount: bitcoin_amount})
+      else
+        Qt::MessageBox.critical(self, tr("Invalid offer"),
+                                tr("You can't pay for this offer, either because it's not accepted yet or because it's expired."))
+      end
+    end
 
     def initialize()
       super
-      setWindowTitle(tr("Mastercoin wallet - v0.0.1"))
+  
+
+      @ui = Ui_MainWindow.new
+      @ui.setupUi(self)
+
+      setWindowTitle(tr("Mastercoin wallet - v0.0.2"))
 
       @rows = []
 
-      createBalanceOverview()
+      #createBalanceOverview()
 
-      @recentTransactions = Qt::TreeWidget.new
-      @recentTransactions.setColumnCount(2)
-      @recentTransactions.setHeaderLabels(["Address", "Amount", "Date", "Currency ID", "Type"])
-
+      @recentTransactions = findChild(Qt::TreeWidget, "overviewTree")
       @recentTransactions.setColumnWidth(0,300)
       @recentTransactions.setColumnWidth(1,50)
 
-      overview = Qt::VBoxLayout.new
-      @btc_balance_label = Qt::Label.new(tr("#{MastercoinWallet.config.btc_balance} BTC"))
-      overview.addWidget(Qt::Label.new(tr("<h3>Mastercoin wallet</h3>")),0,0)
-      overview.addWidget(Qt::Label.new(tr(MastercoinWallet.config.address)),1,0)
-      overview.addWidget(@btc_balance_label,1,1)
+      @order_book =  findChild(Qt::TreeWidget, "orderTree")
+      @order_book.setColumnWidth(0,280)
+      @order_book.setColumnWidth(1,70)
+      @order_book.setColumnWidth(2,80)
+      @order_book.setColumnWidth(4,70)
+
+      connect(@order_book, SIGNAL('itemDoubleClicked(QTreeWidgetItem *, int)'), self, SLOT('create_order(QTreeWidgetItem *,int)'))
+
+      @purchase_offers =  findChild(Qt::TreeWidget, "purchaseTree")
+      @purchase_offers.setColumnWidth(0,280)
+      @purchase_offers.setColumnWidth(1,70)
+      @purchase_offers.setColumnWidth(2,80)
+      @purchase_offers.setColumnWidth(4,100)
+
+      connect(@purchase_offers, SIGNAL('itemDoubleClicked(QTreeWidgetItem *, int)'), self, SLOT('create_bitcoin_tx(QTreeWidgetItem *,int)'))
+
+      @balance_label = findChild(Qt::Label, "mscBalanceLabel")
+      @test_balance_label = findChild(Qt::Label, "tMscBalanceLabel")
+      @btc_balance_label = findChild(Qt::Label, "bitcoinLabel")
+      @address_label = findChild(Qt::Label, "mscAddressLabel")
+      @address_label.text = MastercoinWallet.config.address
       
-      simple_send = Qt::PushButton.new
+      simple_send = findChild(Qt::PushButton, "simpleSendButton")
       simple_send.setText("New simple send")
       connect(simple_send, SIGNAL('clicked()'), self, SLOT('new_simple_send()'))
 
-      selling_offer = Qt::PushButton.new
-      selling_offer.setText("New selling offer")
+      selling_offer = findChild(Qt::PushButton, "sellingButton")
       connect(selling_offer, SIGNAL('clicked()'), self, SLOT('new_selling_offer()'))
 
-      purchase_offer = Qt::PushButton.new
-      purchase_offer.setText("New purchase offer")
+      purchase_offer = findChild(Qt::PushButton, "purchaseButton")
       connect(purchase_offer, SIGNAL('clicked()'), self, SLOT('new_purchase_offer()'))
 
-      self.layout = Qt::GridLayout.new do |m|
-        m.addWidget(@gridGroupBox, 0, 0)
-        m.addLayout(overview, 0, 1)
-        m.addWidget(@recentTransactions, 1,0,1, 3)
-        m.addWidget(simple_send, 2,1)
-        m.addWidget(selling_offer, 2,0)
-        m.addWidget(purchase_offer, 2,2)
-      end
+      self.update
+      MastercoinWallet.selling_offers.add_observer(self, :update_order_book)
+      MastercoinWallet.wallet.add_observer(self, :update)
+      self.sync
 
-      MastercoinWallet.network.add_observer(self, :update)
-      MastercoinWallet.network.sync!
+      # Sync every 30 seconds
+      @timer = Qt::Timer.new(self)
+      connect(@timer, SIGNAL('timeout()'), self, SLOT('sync()'))
+      @timer.start(30000)
+    end
+
+    def sync
+      MastercoinWallet.selling_offers.retrieve!
+      MastercoinWallet.wallet.sync!
+    end
+    
+    def new_bitcoin_payment(options = {})
+      dialog = MastercoinWallet::BitcoinOfferWindow.new(nil, options)
+      dialog.exec
     end
 
     def new_simple_send
@@ -58,14 +100,16 @@ module MastercoinWallet
       dialog.exec
     end
 
-    def new_purchase_offer
-      dialog = MastercoinWallet::PurchaseOfferWindow.new
+    def new_purchase_offer(options = {})
+      dialog = MastercoinWallet::PurchaseOfferWindow.new(nil, options)
       dialog.exec
     end
+
     def update(status = true)
       load_transactions
       update_balance
     end
+
 
     def coin_name(currency_id)
       if currency_id.to_s == "1"
@@ -75,70 +119,89 @@ module MastercoinWallet
       end
     end
 
+    def add_row(item, type)
+      row = Qt::TreeWidgetItem.new
+      row.setText(0, item["address"])
+      row.setText(1, item["amount"])
+      row.setText(2, type)
+      row.setText(3, coin_name(item["currency_id"]))
+      row.setText(4, item["tx_date"])
+      return row
+    end
+
+    def add_offer_row(item)
+      row = Qt::TreeWidgetItem.new
+      row.setText(0, item["address"])
+      row.setText(1, coin_name(item["currency_id"]))
+      row.setText(2, item["amount_available"])
+      row.setText(3, "#{item["price_per_coin"]} BTC")
+      row.setText(4, item["required_fee"])
+      row.setText(5, item["tx_date"])
+      return row
+    end
+
+    def add_purchase_row(item)
+      row = Qt::TreeWidgetItem.new
+      row.setText(0, item["selling_offer"]["address"])
+      row.setText(1, item["amount"])
+      row.setText(2, item["bitcoins_required"])
+      row.setText(3, coin_name(item["currency_id"]))
+      row.setText(4, item["status_text"])
+      row.setText(5, item["tx_date"])
+      return row
+    end
+
+    def update_order_book(orders)
+      orders.each do |order|
+        @rows << add_offer_row(order)
+      end
+      @order_book.clear()
+      @order_book.insertTopLevelItems(0, @rows)
+    end
+
     def load_transactions
+      if MastercoinWallet.config.has_key?(:pending_offers)
+        MastercoinWallet.config.pending_offers.each do |x|
+          @rows << add_purchase_row(x)
+        end
+        @purchase_offers.clear()
+        @purchase_offers.insertTopLevelItems(0, @rows)
+      end
+
       if MastercoinWallet.config.has_key?(:received_transactions)
         MastercoinWallet.config.received_transactions.each do |x|
-          row = Qt::TreeWidgetItem.new
-          row.setText(0, x["address"])
-          row.setText(1, x["amount"])
-          row.setText(2, x["tx_date"])
-          row.setText(3, coin_name(x["currency_id"]))
-          row.setText(4, "Receiving")
-          @rows << row
+          @rows << add_row(x, "Receiving")
         end
       end
 
       if MastercoinWallet.config.has_key?(:exodus_transactions)
         MastercoinWallet.config.exodus_transactions.each do |x|
-          row = Qt::TreeWidgetItem.new
-          row.setText(0, x["address"])
-          row.setText(1, x["amount"])
-          row.setText(2, x["tx_date"])
-          row.setText(3,coin_name(x["currency_id"]))
-          row.setText(4, "Exodus")
-          @rows << row
+          @rows << add_row(x, "Exodus")
         end
       end
 
       if MastercoinWallet.config.has_key?(:sent_transactions)
         MastercoinWallet.config.sent_transactions.each do |x|
-          row = Qt::TreeWidgetItem.new
-          row.setText(0, x["receiving_address"])
-          row.setText(1, x["amount"])
-          row.setText(2, x["tx_date"])
-          row.setText(3,coin_name(x["currency_id"]))
-          row.setText(4, "Sent")
-          @rows << row
+          @rows << add_row(x, "Sent")
         end
       end
       if MastercoinWallet.config.has_key?(:bought)
         MastercoinWallet.config.sent_transactions.each do |x|
-          row = Qt::TreeWidgetItem.new
-          row.setText(0, x["receiving_address"])
-          row.setText(1, x["amount"])
-          row.setText(2, x["tx_date"])
-          row.setText(3,coin_name(x["currency_id"]))
-          row.setText(4, "Bought")
-          @rows << row
+          @rows << add_row(x, "Bought")
         end
       end
       if MastercoinWallet.config.has_key?(:sold)
         MastercoinWallet.config.sent_transactions.each do |x|
-          row = Qt::TreeWidgetItem.new
-          row.setText(0, x["receiving_address"])
-          row.setText(1, x["amount"])
-          row.setText(2, x["tx_date"])
-          row.setText(3,coin_name(x["currency_id"]))
-          row.setText(4, "Sold")
-          @rows << row
+          @rows << add_row(x, "Sold")
         end
       end
+      @recentTransactions.clear()
       @recentTransactions.insertTopLevelItems(0, @rows)
     end
 
     def update_balance
       @balance_label.setText("#{MastercoinWallet.config.balance} MSC")
-      @test_balance_label.setText("Test #{MastercoinWallet.config.test_balance} MSC")
+      @test_balance_label.setText("#{MastercoinWallet.config.test_balance} Test MSC")
       @btc_balance_label.setText(tr("#{MastercoinWallet.config.btc_balance} BTC"))
     end
 
