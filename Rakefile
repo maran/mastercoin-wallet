@@ -34,3 +34,22 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+require 'releasy'
+Releasy::Project.new do
+  name "Mastercoin Wallet"
+  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+  verbose # Can be removed if you don't want to see all build messages.
+  executable "bin/mastercoin-wallet"
+  files ["lib/**/*.*", "bin/*.*", "resources/*.*"]
+
+  exclude_encoding
+  # Create a variety of releases, for all platforms.
+  add_build :osx_app do
+    url "com.maran.mastercoin_wallet"
+    wrapper "../wrappers/gosu-mac-wrapper-0.7.47.tar.gz"
+    icon "resources/logo.icns"
+  end
+
+  add_deploy :local # Only deploy locally.
+end
