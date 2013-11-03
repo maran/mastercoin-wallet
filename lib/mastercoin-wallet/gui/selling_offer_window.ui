@@ -140,6 +140,15 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>amount_input</tabstop>
+  <tabstop>btc_amount_input</tabstop>
+  <tabstop>currency_box</tabstop>
+  <tabstop>time_input</tabstop>
+  <tabstop>fee_input</tabstop>
+  <tabstop>password_input</tabstop>
+  <tabstop>submit_button</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

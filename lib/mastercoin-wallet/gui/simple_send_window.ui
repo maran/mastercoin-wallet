@@ -120,6 +120,13 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>address_input</tabstop>
+  <tabstop>amount_input</tabstop>
+  <tabstop>currency_box</tabstop>
+  <tabstop>password_input</tabstop>
+  <tabstop>submit_button</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

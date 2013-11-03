@@ -47,8 +47,7 @@ module MastercoinWallet
     end
 
     def send_payment
-      data_key = Mastercoin::SimpleSend.new(currency_id: 2, amount: @amount.to_f * 1e8).encode_to_compressed_public_key(MastercoinWallet.config.address)
-      MastercoinWallet.log.debug("Mastercoin key: #{data_key}")
+      data_key = Mastercoin::SimpleSend.new(currency_id: 2, amount: (@amount.to_f * 1e8).to_i).encode_to_compressed_public_key(MastercoinWallet.config.address)
       create_transaction_with_keys(data_key)
       close()
     end

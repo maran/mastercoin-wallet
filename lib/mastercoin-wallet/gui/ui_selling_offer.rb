@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'selling_offer_window.ui'
 **
-** Created: Thu Oct 24 15:06:35 2013
+** Created: Sat Nov 2 14:56:10 2013
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -112,6 +112,12 @@ class Ui_SellingOffer
     @submit_button.enabled = false
     @submit_button.geometry = Qt::Rect.new(420, 230, 114, 32)
     @submit_button.autoDefault = false
+    Qt::Widget.setTabOrder(@amount_input, @btc_amount_input)
+    Qt::Widget.setTabOrder(@btc_amount_input, @currency_box)
+    Qt::Widget.setTabOrder(@currency_box, @time_input)
+    Qt::Widget.setTabOrder(@time_input, @fee_input)
+    Qt::Widget.setTabOrder(@fee_input, @password_input)
+    Qt::Widget.setTabOrder(@password_input, @submit_button)
 
     retranslateUi(sellingOffer)
 

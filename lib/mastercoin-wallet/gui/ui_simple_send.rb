@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'simple_send_window.ui'
 **
-** Created: Sun Sep 29 16:35:18 2013
+** Created: Sat Nov 2 14:56:54 2013
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -88,6 +88,10 @@ class Ui_SimpleSend
     @submit_button.enabled = false
     @submit_button.geometry = Qt::Rect.new(410, 170, 114, 32)
     @submit_button.autoDefault = false
+    Qt::Widget.setTabOrder(@address_input, @amount_input)
+    Qt::Widget.setTabOrder(@amount_input, @currency_box)
+    Qt::Widget.setTabOrder(@currency_box, @password_input)
+    Qt::Widget.setTabOrder(@password_input, @submit_button)
 
     retranslateUi(simpleSend)
 

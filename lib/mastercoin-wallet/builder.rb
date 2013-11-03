@@ -4,16 +4,30 @@ module MastercoinWallet
 
     def set_fee(force_fee = nil)
       self.fee = force_fee || BigDecimal.new("0.0001")
+
+      if self.fee < 0.0001
+        self.fee = BigDecimal.new("0.0001")
+      end
+
       self.tx_amount = BigDecimal.new("0.00006")
-      self.mastercoin_tx = (4 * tx_amount)
+      if @receiving_address
+        output_counter = 4
+      else
+        output_counter = 3
+      end
+      self.mastercoin_tx = (output_counter * tx_amount)
     end
 
-    def create_transaction_with_keys(data_keys)
+    def create_transaction_with_keys(data_keys, options = {})
       public_keys = []
       public_keys << data_keys
-      public_keys.flatten
+      public_keys.flatten!
 
-      self.set_fee
+      if options.has_key?(:force_fee)
+        self.set_fee(BigDecimal.new(options[:force_fee]))
+      else
+        self.set_fee
+      end
 
       valid_output = MastercoinWallet.config.spendable_outputs.find{|x| BigDecimal.new(x[:value]) > (self.fee + self.mastercoin_tx)}
 

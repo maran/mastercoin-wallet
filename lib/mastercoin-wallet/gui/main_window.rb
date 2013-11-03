@@ -1,6 +1,6 @@
 module MastercoinWallet 
   class MainWindow < Qt::Dialog
-    slots 'new_simple_send()', 'new_selling_offer()'
+    slots 'new_simple_send()', 'new_selling_offer()', 'new_purchase_offer()'
 
     def initialize()
       super
@@ -12,7 +12,7 @@ module MastercoinWallet
 
       @recentTransactions = Qt::TreeWidget.new
       @recentTransactions.setColumnCount(2)
-      @recentTransactions.setHeaderLabels(["Address", "Amount", "Date", "Currency ID"])
+      @recentTransactions.setHeaderLabels(["Address", "Amount", "Date", "Currency ID", "Type"])
 
       @recentTransactions.setColumnWidth(0,300)
       @recentTransactions.setColumnWidth(1,50)
@@ -31,12 +31,17 @@ module MastercoinWallet
       selling_offer.setText("New selling offer")
       connect(selling_offer, SIGNAL('clicked()'), self, SLOT('new_selling_offer()'))
 
+      purchase_offer = Qt::PushButton.new
+      purchase_offer.setText("New purchase offer")
+      connect(purchase_offer, SIGNAL('clicked()'), self, SLOT('new_purchase_offer()'))
+
       self.layout = Qt::GridLayout.new do |m|
         m.addWidget(@gridGroupBox, 0, 0)
         m.addLayout(overview, 0, 1)
-        m.addWidget(@recentTransactions, 1,0,1, 2)
+        m.addWidget(@recentTransactions, 1,0,1, 3)
         m.addWidget(simple_send, 2,1)
-        #m.addWidget(selling_offer, 2,0)
+        m.addWidget(selling_offer, 2,0)
+        m.addWidget(purchase_offer, 2,2)
       end
 
       MastercoinWallet.network.add_observer(self, :update)
@@ -53,6 +58,10 @@ module MastercoinWallet
       dialog.exec
     end
 
+    def new_purchase_offer
+      dialog = MastercoinWallet::PurchaseOfferWindow.new
+      dialog.exec
+    end
     def update(status = true)
       load_transactions
       update_balance
@@ -74,6 +83,7 @@ module MastercoinWallet
           row.setText(1, x["amount"])
           row.setText(2, x["tx_date"])
           row.setText(3, coin_name(x["currency_id"]))
+          row.setText(4, "Receiving")
           @rows << row
         end
       end
@@ -85,6 +95,7 @@ module MastercoinWallet
           row.setText(1, x["amount"])
           row.setText(2, x["tx_date"])
           row.setText(3,coin_name(x["currency_id"]))
+          row.setText(4, "Exodus")
           @rows << row
         end
       end
@@ -96,6 +107,29 @@ module MastercoinWallet
           row.setText(1, x["amount"])
           row.setText(2, x["tx_date"])
           row.setText(3,coin_name(x["currency_id"]))
+          row.setText(4, "Sent")
+          @rows << row
+        end
+      end
+      if MastercoinWallet.config.has_key?(:bought)
+        MastercoinWallet.config.sent_transactions.each do |x|
+          row = Qt::TreeWidgetItem.new
+          row.setText(0, x["receiving_address"])
+          row.setText(1, x["amount"])
+          row.setText(2, x["tx_date"])
+          row.setText(3,coin_name(x["currency_id"]))
+          row.setText(4, "Bought")
+          @rows << row
+        end
+      end
+      if MastercoinWallet.config.has_key?(:sold)
+        MastercoinWallet.config.sent_transactions.each do |x|
+          row = Qt::TreeWidgetItem.new
+          row.setText(0, x["receiving_address"])
+          row.setText(1, x["amount"])
+          row.setText(2, x["tx_date"])
+          row.setText(3,coin_name(x["currency_id"]))
+          row.setText(4, "Sold")
           @rows << row
         end
       end

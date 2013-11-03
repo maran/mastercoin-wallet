@@ -13,7 +13,7 @@ module MastercoinWallet
         MastercoinWallet.config.set_key(:balance, (@address["balance"] || 0))
         MastercoinWallet.config.set_key(:test_balance, (@address["test_balance"] || 0))
 
-        ["received_transactions", "sent_transactions", "exodus_transactions", "bitcoin_transactions", "spendable_outputs"].each do |x|
+        ["sold", "bought", "received_transactions", "sent_transactions", "exodus_transactions", "bitcoin_transactions", "spendable_outputs"].each do |x|
           if @address[x]
             MastercoinWallet.config.set_key(x, @address[x])
           end
