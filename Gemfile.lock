@@ -9,23 +9,6 @@ GIT
       rake (>= 0.9.2.2)
       thor (~> 0.14.6)
 
-GIT
-  remote: https://github.com/maran/bitcoin-ruby.git
-  revision: b9baf584a509e89cca0a9e5dc879f225dd9aa529
-  specs:
-    bitcoin-ruby (0.0.1)
-
-GIT
-  remote: https://github.com/maran/mastercoin-ruby.git
-  revision: 07437c33dba284e0e638dbd24245219e93b2462f
-  branch: develop
-  specs:
-    mastercoin-ruby (0.0.4)
-      activesupport (>= 3.0.0)
-      bitcoin-ruby (~> 0.0.1)
-      sequel (~> 4.1.1)
-      thor
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -33,6 +16,7 @@ GEM
       activesupport (= 3.0.0)
     activesupport (3.0.0)
     addressable (2.3.5)
+    bitcoin-ruby (0.0.2)
     builder (3.2.2)
     cri (2.1.0)
     faraday (0.8.8)
@@ -65,6 +49,11 @@ GEM
     json (1.8.1)
     jwt (0.1.8)
       multi_json (>= 1.5)
+    mastercoin-ruby (0.1.0)
+      activesupport (>= 3.0.0)
+      bitcoin-ruby (~> 0.0.1)
+      sequel (~> 4.1.1)
+      thor (>= 0.14.6)
     multi_json (1.8.2)
     multi_xml (0.5.5)
     multipart-post (1.2.0)
@@ -90,12 +79,12 @@ PLATFORMS
 
 DEPENDENCIES
   active_support
-  bitcoin-ruby (~> 0.0.1)!
+  bitcoin-ruby (= 0.0.2)
   bundler (~> 1.0)
   ffi
   httparty
   i18n
   jeweler (~> 1.8.8)
-  mastercoin-ruby!
+  mastercoin-ruby (~> 0.1.0)
   qtbindings
   releasy!

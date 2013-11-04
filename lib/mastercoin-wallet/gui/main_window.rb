@@ -23,7 +23,6 @@ module MastercoinWallet
     def initialize()
       super
   
-
       @ui = Ui_MainWindow.new
       @ui.setupUi(self)
 
@@ -42,6 +41,7 @@ module MastercoinWallet
       @order_book.setColumnWidth(1,70)
       @order_book.setColumnWidth(2,80)
       @order_book.setColumnWidth(4,70)
+      @order_book.sortByColumn(3,0)
 
       connect(@order_book, SIGNAL('itemDoubleClicked(QTreeWidgetItem *, int)'), self, SLOT('create_order(QTreeWidgetItem *,int)'))
 
@@ -50,6 +50,7 @@ module MastercoinWallet
       @purchase_offers.setColumnWidth(1,70)
       @purchase_offers.setColumnWidth(2,80)
       @purchase_offers.setColumnWidth(4,100)
+      @purchase_offers.sortByColumn(5)
 
       connect(@purchase_offers, SIGNAL('itemDoubleClicked(QTreeWidgetItem *, int)'), self, SLOT('create_bitcoin_tx(QTreeWidgetItem *,int)'))
 

@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'main_window.ui'
 **
-** Created: Sun Nov 3 15:47:04 2013
+** Created: Mon Nov 4 18:21:46 2013
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -81,6 +81,7 @@ class Ui_MainWindow
     @orderTree = Qt::TreeWidget.new(@tab_2)
     @orderTree.objectName = "orderTree"
     @orderTree.geometry = Qt::Rect.new(10, 30, 701, 131)
+    @orderTree.sortingEnabled = true
     @label = Qt::Label.new(@tab_2)
     @label.objectName = "label"
     @label.geometry = Qt::Rect.new(10, -2, 151, 31)
@@ -90,6 +91,7 @@ class Ui_MainWindow
     @purchaseTree = Qt::TreeWidget.new(@tab_2)
     @purchaseTree.objectName = "purchaseTree"
     @purchaseTree.geometry = Qt::Rect.new(10, 250, 701, 131)
+    @purchaseTree.sortingEnabled = true
     @label_2 = Qt::Label.new(@tab_2)
     @label_2.objectName = "label_2"
     @label_2.geometry = Qt::Rect.new(10, 210, 191, 31)
@@ -107,7 +109,7 @@ class Ui_MainWindow
 
     retranslateUi(mainWindow)
 
-    @mainTab.setCurrentIndex(0)
+    @mainTab.setCurrentIndex(1)
 
 
     Qt::MetaObject.connectSlotsByName(mainWindow)

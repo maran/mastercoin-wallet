@@ -35,7 +35,7 @@
     </sizepolicy>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -196,6 +196,9 @@
      <property name="toolTip">
       <string>Double click to create a purchase offer from this Selling Offer</string>
      </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
      <column>
       <property name="text">
        <string>Seller</string>
@@ -261,6 +264,9 @@
        <width>701</width>
        <height>131</height>
       </rect>
+     </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
      </property>
      <column>
       <property name="text">
