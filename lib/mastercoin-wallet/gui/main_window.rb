@@ -26,7 +26,7 @@ module MastercoinWallet
       @ui = Ui_MainWindow.new
       @ui.setupUi(self)
 
-      setWindowTitle(tr("Mastercoin wallet - v0.0.3"))
+      setWindowTitle(tr("Mastercoin wallet - v0.0.5"))
 
       @rows = []
 

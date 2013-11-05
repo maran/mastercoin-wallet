@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'main_window.ui'
 **
-** Created: Mon Nov 4 18:21:46 2013
+** Created: Tue Nov 5 21:06:14 2013
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -84,7 +84,7 @@ class Ui_MainWindow
     @orderTree.sortingEnabled = true
     @label = Qt::Label.new(@tab_2)
     @label.objectName = "label"
-    @label.geometry = Qt::Rect.new(10, -2, 151, 31)
+    @label.geometry = Qt::Rect.new(10, -2, 321, 31)
     @sellingButton = Qt::PushButton.new(@tab_2)
     @sellingButton.objectName = "sellingButton"
     @sellingButton.geometry = Qt::Rect.new(580, 160, 131, 32)
@@ -94,7 +94,7 @@ class Ui_MainWindow
     @purchaseTree.sortingEnabled = true
     @label_2 = Qt::Label.new(@tab_2)
     @label_2.objectName = "label_2"
-    @label_2.geometry = Qt::Rect.new(10, 210, 191, 31)
+    @label_2.geometry = Qt::Rect.new(10, 210, 411, 31)
     @purchaseButton = Qt::PushButton.new(@tab_2)
     @purchaseButton.objectName = "purchaseButton"
     @purchaseButton.geometry = Qt::Rect.new(560, 380, 151, 32)
