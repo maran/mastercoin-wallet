@@ -82,10 +82,15 @@ module MastercoinWallet
         @address = Bitcoin::Key.from_base58(@priv_key).addr
         @address_label.setText("Address for private key: #{@address}")
         check_valid
-      rescue RuntimeError
-        @address = nil
-        @address_label.setText("Cannot get Bitcoin address from private key.")
-        invalid!
+      rescue ArgumentError, RuntimeError, OpenSSL::BNError
+        begin
+          @address = Bitcoin::Key.new(@priv_key).addr
+          @address_label.setText("Address for private key: #{@address}")
+          check_valid
+        rescue RuntimeError, OpenSSL::BNError
+          @address_label.setText("Cannot get Bitcoin address from private key.")
+          invalid!
+        end
       end
     end
   end
