@@ -55,10 +55,10 @@ module MastercoinWallet
       end
         begin
           key = Bitcoin::Key.from_base58(priv_key)
-        rescue ArgumentError
+        rescue ArgumentError, RuntimeError
           begin
             key = Bitcoin::Key.new(priv_key)
-          rescue ArgumentError, OpenSSL::BNError
+          rescue ArgumentError, OpenSSL::BNError, RuntimeError
               Qt::MessageBox.information(self, tr("Could not send payment."),
                                          tr("Could not send payment, wrong password."))
             return
@@ -166,16 +166,23 @@ module MastercoinWallet
       end
         begin
           key = Bitcoin::Key.from_base58(priv_key)
-        rescue ArgumentError
+        rescue ArgumentError, RuntimeError
           begin
             key = Bitcoin::Key.new(priv_key)
-          rescue ArgumentError, OpenSSL::BNError
+          rescue ArgumentError, OpenSSL::BNError, RuntimeError
               Qt::MessageBox.information(self, tr("Could not send payment."),
                                          tr("Could not send payment, wrong password."))
             return
           end
         end
-        public_keys.insert(0, key.pub_compressed)
+
+        begin
+          public_keys.insert(0, key.pub_compressed)
+        rescue RuntimeError => e
+              Qt::MessageBox.information(self, tr("Could not send payment."),
+                                         tr("Something went wrong while trying to generate your public key. Please report this: #{e}"))
+              return
+        end
 
 
         tx = build_tx do |t|
