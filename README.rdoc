@@ -14,12 +14,25 @@ Dependencies will differ based on your operating system.
 === OS X 
 Install {homebrew}[http://brew.sh/] if you haven't got it yet. 
 
-* brew install qt
+* brew install qt cmake
 
 === Debian/Ubuntu
 These instructions might not be complete. Additional instructions welcome.
 
 * apt-get install libqt4-gui libqt4-dev cake
+
+=== Windows
+These instructions might also not be complete. 
+
+* Download and install Win32 OpenSSL from: http://slproweb.com/products/Win32OpenSSL.html
+* Install Ruby via http://rubyinstaller.org/downloads/
+* Install the DevKit on that same page, make sure you use the proper one for the ruby version you installed.
+* Make sure you follow {these instructions}[https://github.com/oneclick/rubyinstaller/wiki/Development-Kit] on how to properly configure the DevKit 
+* Start a command prompt with ruby and type "gem install mastercoin-wallet"
+
+This last step should hopefully not be needed anymore but for now we need a custom patched bitcoin-ruby for Windows
+* {Download the updated bitcoin-ruby gem}[https://dl.dropboxusercontent.com/u/374/bitcoin-ruby-0.0.2.gem] and install it using gem install bitcoin-ruby-0.0.2.gem 
+* Go back to the ruby command prompt and type mastercoin-wallet to start it
 
 == Installation
 Once the depencies are installed you can just do gem install mastercoin-wallet to install the wallet. Start it by issuing mastercoin-wallet from a terminal.
