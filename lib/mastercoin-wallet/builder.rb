@@ -108,12 +108,18 @@ module MastercoinWallet
 
     def pick_outputs(required_amount)
       used_outputs = MastercoinWallet.config.created_transactions.collect{|x| x["in"][0]["prev_out"] }
-      usuable_outputs = MastercoinWallet.config.spendable_outputs.find{|x| BigDecimal.new(x[:value]) > BigDecimal.new(required_amount.to_s) }.reject{|x| used_outputs.include?(x["prev_out"])}
+      usuable_outputs = MastercoinWallet.config.spendable_outputs.find{|x| BigDecimal.new(x[:value]) > BigDecimal.new(required_amount.to_s) }
+      puts "Found these total: #{usuable_outputs}"
+      puts "These are used #{used_outputs}"
+      usuable_outputs = [usuable_outputs] if usuable_outputs.is_a?(Hash)
+      usuable_outputs.reject!{|x| puts x; used_outputs.include?(x["prev_out"])}
+      puts "Left with these: #{usuable_outputs}"
+
       if usuable_outputs.empty?
         # Outputs are saved in order so the last output should always the one that's unused, make sure it's an output for thist address and that it's big enough
-        if used_outputs.last["out"].first["address"] == MastercoinWallet.config.address && used_outputs.last["out"].first["value"].to_f >= BigDecimal.new(required_amount)
+        if MastercoinWallet.config.created_transactions.last["out"].first["address"] == MastercoinWallet.config.address && MastercoinWallet.config.created_transactions.last["out"].first["value"].to_f >= BigDecimal.new(required_amount)
           # We are taking an full transaction and building a spendable output based on the details we have
-          return used_outputs.last["out"].first.reverse_merge({prev_out: {hash: used_outputs.last["hash"], n: "0"}})
+          return MastercoinWallet.config.created_transactions.last["out"].first.reverse_merge({prev_out: {hash: MastercoinWallet.config.created_transactions.last["hash"], n: "0"}})
         end
       else
         if usuable_outputs.is_a?(Array)
