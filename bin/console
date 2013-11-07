@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+$:.unshift( File.expand_path("../../lib", __FILE__) )
+require 'mastercoin-wallet'
+include MastercoinWallet
+
+require 'irb'
+require 'irb/completion'
+def reload(require_regex)
+  $".grep(/^#{require_regex}/).each {|e| $".delete(e) && require(e) }
+end
+def reload!
+  $".grep(/mastercoin/).each {|e| $".delete(e) && require(e) }
+end
+IRB.start
+
