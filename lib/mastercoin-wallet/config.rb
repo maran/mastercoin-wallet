@@ -1,7 +1,7 @@
 module MastercoinWallet
   class Config
     attr_accessor :options
-    DEFAULT = ActiveSupport::HashWithIndifferentAccess.new(balance: 0, test_balance: 0, spendable_outputs: [], bitcoin_transactions: [], exodus_transactions: [], sent_transactions: [], received_transactions: [], btc_balance: 0)
+    DEFAULT = ActiveSupport::HashWithIndifferentAccess.new(balance: 0, test_balance: 0, spendable_outputs: [], bought_transactions:[], created_transactions: [], sold_transactions: [], bitcoin_transactions: [], exodus_transactions: [], sent_transactions: [], received_transactions: [], btc_balance: 0)
 
     def initialize
       self.ensure_config!
@@ -11,7 +11,7 @@ module MastercoinWallet
       if config.empty?
         self.options = DEFAULT
       else
-        self.options = ActiveSupport::HashWithIndifferentAccess.new(JSON.load(config))
+        self.options = ActiveSupport::HashWithIndifferentAccess.new(JSON.load(config)).reverse_merge(DEFAULT)
       end
     end
 

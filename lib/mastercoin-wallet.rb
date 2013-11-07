@@ -15,7 +15,7 @@ module MastercoinWallet
 
   autoload :Address, 'mastercoin-wallet/models/address'
   autoload :Transaction, 'mastercoin-wallet/models/transaction'
-
+  autoload :Util, 'mastercoin-wallet/util'
 
   autoload :MainWindow, 'mastercoin-wallet/gui/main_window'
   autoload :FirstRunWindow, 'mastercoin-wallet/gui/first_run_window'

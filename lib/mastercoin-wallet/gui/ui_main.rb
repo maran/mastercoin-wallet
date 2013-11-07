@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'main_window.ui'
 **
-** Created: Tue Nov 5 21:06:14 2013
+** Created: Thu Nov 7 21:47:28 2013
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -59,7 +59,7 @@ class Ui_MainWindow
     @bitcoinLabel.geometry = Qt::Rect.new(10, 70, 171, 19)
     @mscAddressLabel = Qt::Label.new(@tab)
     @mscAddressLabel.objectName = "mscAddressLabel"
-    @mscAddressLabel.geometry = Qt::Rect.new(220, 40, 471, 51)
+    @mscAddressLabel.geometry = Qt::Rect.new(220, 40, 491, 51)
     @font = Qt::Font.new
     @font.family = "Verdana"
     @font.pointSize = 24
@@ -109,7 +109,7 @@ class Ui_MainWindow
 
     retranslateUi(mainWindow)
 
-    @mainTab.setCurrentIndex(1)
+    @mainTab.setCurrentIndex(0)
 
 
     Qt::MetaObject.connectSlotsByName(mainWindow)

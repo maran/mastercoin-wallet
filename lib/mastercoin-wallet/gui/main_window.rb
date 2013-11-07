@@ -1,5 +1,7 @@
 module MastercoinWallet 
   class MainWindow < Qt::Dialog
+    include MastercoinWallet::Util
+
     slots 'new_simple_send()', 'new_selling_offer()', 'new_purchase_offer()', 'create_order(QTreeWidgetItem *, int)', 'sync()', 'create_bitcoin_tx(QTreeWidgetItem *, int)'
 
     def create_order(item, position)
@@ -26,7 +28,7 @@ module MastercoinWallet
       @ui = Ui_MainWindow.new
       @ui.setupUi(self)
 
-      setWindowTitle(tr("Mastercoin wallet - v0.0.5"))
+      setWindowTitle(tr("Mastercoin wallet - v0.0.6"))
 
       @rows = []
 
@@ -111,22 +113,17 @@ module MastercoinWallet
       update_balance
     end
 
-
-    def coin_name(currency_id)
-      if currency_id.to_s == "1"
-        "MSC"
-      else
-        "Test MSC"
-      end
-    end
-
     def add_row(item, type)
       row = Qt::TreeWidgetItem.new
-      row.setText(0, item["address"])
+      if type == "Sent"
+        row.setText(0, item["receiving_address"])
+      else
+        row.setText(0, item["address"])
+      end
       row.setText(1, item["amount"])
       row.setText(2, type)
       row.setText(3, coin_name(item["currency_id"]))
-      row.setText(4, item["tx_date"])
+      row.setText(4, get_date(item["tx_date"]))
       return row
     end
 
@@ -187,12 +184,12 @@ module MastercoinWallet
         end
       end
       if MastercoinWallet.config.has_key?(:bought)
-        MastercoinWallet.config.sent_transactions.each do |x|
+        MastercoinWallet.config.bought_transactions.each do |x|
           @rows << add_row(x, "Bought")
         end
       end
       if MastercoinWallet.config.has_key?(:sold)
-        MastercoinWallet.config.sent_transactions.each do |x|
+        MastercoinWallet.config.sold_transactions.each do |x|
           @rows << add_row(x, "Sold")
         end
       end
