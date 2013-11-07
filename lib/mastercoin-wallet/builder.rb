@@ -103,26 +103,25 @@ module MastercoinWallet
           end
         end
 
-        tx = Bitcoin::Protocol::Tx.new( tx.to_payload )
+        transmit!(tx)
+    end
 
-        MastercoinWallet.log.debug("TX Made: #{tx.to_hash}")
-
-        transaction_hash = tx.to_payload.unpack("H*").first
-
-        MastercoinWallet.log.debug("If you want to send it by Bitcoind use this")
-        MastercoinWallet.log.debug(transaction_hash)
-        MastercoinWallet.log.debug("Required fee: #{tx.calculate_minimum_fee} - Multisig size: #{tx.outputs.last.script.bytesize}")
-
-        remote_transaction = Transaction.new(tx.to_hash["hash"], tx.to_json)
-        response = remote_transaction.create!
-        if response.parsed_response.keys.include?("error")
-          Qt::MessageBox.critical(self, tr("Could not relay transaction"),
-                                 tr("The remote server could not transmit your transaction at this moment. #{response.parsed_response}"))
-          return
-        else
-          Qt::MessageBox.information(self, tr("Transaction send"),
-                                 tr("Your transaction with hash #{tx.to_hash["hash"]} has been offered to the relay server, it should show up within 10 minutes."))
+    def pick_outputs(required_amount)
+      used_outputs = MastercoinWallet.config.created_transactions.collect{|x| x["in"][0]["prev_out"] }
+      usuable_outputs = MastercoinWallet.config.spendable_outputs.find{|x| BigDecimal.new(x[:value]) > BigDecimal.new(required_amount.to_s) }.reject{|x| used_outputs.include?(x["prev_out"])}
+      if usuable_outputs.empty?
+        # Outputs are saved in order so the last output should always the one that's unused, make sure it's an output for thist address and that it's big enough
+        if used_outputs.last["out"].first["address"] == MastercoinWallet.config.address && used_outputs.last["out"].first["value"].to_f >= BigDecimal.new(required_amount)
+          # We are taking an full transaction and building a spendable output based on the details we have
+          return used_outputs.last["out"].first.reverse_merge({prev_out: {hash: used_outputs.last["hash"], n: "0"}})
         end
+      else
+        if usuable_outputs.is_a?(Array)
+          return usuable_outputs[0]
+        else
+          return usuable_outputs
+        end
+      end
     end
 
     def create_transaction_with_keys(data_keys, options = {})
@@ -136,13 +135,8 @@ module MastercoinWallet
         self.set_fee
       end
 
-      valid_output = MastercoinWallet.config.spendable_outputs.find{|x| BigDecimal.new(x[:value]) > (self.fee + self.mastercoin_tx)}
-
-      if valid_output.is_a?(Array)
-        ouput = valid_output[0]
-      else
-        output = valid_output
-      end
+      required_amount = (self.fee + self.mastercoin_tx)
+      output = pick_outputs(required_amount)
 
       unless output
           Qt::MessageBox.critical(self, tr("Could not send transaction"),
@@ -234,7 +228,10 @@ module MastercoinWallet
             end
           end
         end
+        transmit!(tx)
+    end
 
+    def transmit!(tx)
         tx = Bitcoin::Protocol::Tx.new( tx.to_payload )
 
         MastercoinWallet.log.debug("TX Made: #{tx.to_hash}")
@@ -252,6 +249,12 @@ module MastercoinWallet
                                  tr("The remote server could not transmit your transaction at this moment. #{response.parsed_response}"))
           return
         else
+          sent_transactions = MastercoinWallet.config.get_key("created_transactions")
+          sent_transactions ||= []
+          sent_transactions << tx.to_hash(with_address: true)
+
+          MastercoinWallet.config.set_key!(:created_transactions, sent_transactions)
+
           Qt::MessageBox.information(self, tr("Transaction send"),
                                  tr("Your transaction with hash #{tx.to_hash["hash"]} has been offered to the relay server, it should show up within 10 minutes."))
         end
