@@ -109,24 +109,34 @@ module MastercoinWallet
     def pick_outputs(required_amount)
       used_outputs = MastercoinWallet.config.created_transactions.collect{|x| x["in"][0]["prev_out"] }
       usuable_outputs = MastercoinWallet.config.spendable_outputs.find{|x| BigDecimal.new(x[:value]) > BigDecimal.new(required_amount.to_s) }
-      puts "Found these total: #{usuable_outputs}"
-      puts "These are used #{used_outputs}"
+
+      #puts "Found these total: #{usuable_outputs}"
+      #puts "These are used #{used_outputs}"
+
       usuable_outputs = [usuable_outputs] if usuable_outputs.is_a?(Hash)
       usuable_outputs.reject!{|x| puts x; used_outputs.include?(x["prev_out"])}
-      puts "Left with these: #{usuable_outputs}"
+      #puts "Left with these: #{usuable_outputs}"
 
       if usuable_outputs.empty?
         # Outputs are saved in order so the last output should always the one that's unused, make sure it's an output for thist address and that it's big enough
         if MastercoinWallet.config.created_transactions.last["out"].first["address"] == MastercoinWallet.config.address && MastercoinWallet.config.created_transactions.last["out"].first["value"].to_f >= BigDecimal.new(required_amount)
           # We are taking an full transaction and building a spendable output based on the details we have
-          return MastercoinWallet.config.created_transactions.last["out"].first.reverse_merge({prev_out: {hash: MastercoinWallet.config.created_transactions.last["hash"], n: "0"}})
+          output = MastercoinWallet.config.created_transactions.last["out"].first.reverse_merge({prev_out: {hash: MastercoinWallet.config.created_transactions.last["hash"], n: 0}})
+          tx = MastercoinWallet.config.created_transactions.last
+          return output,tx
+        else
+          return nil, nil
         end
       else
         if usuable_outputs.is_a?(Array)
-          return usuable_outputs[0]
-        else
-          return usuable_outputs
+          usuable_outputs = usuable_outputs[0]
         end
+
+        tx = MastercoinWallet.config.bitcoin_transactions.find{|x| x["hash"] == usuable_outputs["prev_out"]["hash"]}
+        if tx.is_a?(Array)
+          tx = tx[0]
+        end
+        return usuable_outputs, tx
       end
     end
 
@@ -142,7 +152,9 @@ module MastercoinWallet
       end
 
       required_amount = (self.fee + self.mastercoin_tx)
-      output = pick_outputs(required_amount)
+      output, tx = pick_outputs(required_amount)
+
+#      puts "Using output: #{output} and Tx: #{tx}"
 
       unless output
           Qt::MessageBox.critical(self, tr("Could not send transaction"),
@@ -152,10 +164,6 @@ module MastercoinWallet
 
       change_amount = BigDecimal.new(output["value"]) - fee - mastercoin_tx
 
-      tx = MastercoinWallet.config.bitcoin_transactions.find{|x| x["hash"] == output["prev_out"]["hash"]}
-      if tx.is_a?(Array)
-        tx = tx[0]
-      end
 
       begin
         priv_key = MastercoinWallet.config.get_encrypted_key(:private_key, @password)
@@ -258,6 +266,12 @@ module MastercoinWallet
           sent_transactions = MastercoinWallet.config.get_key("created_transactions")
           sent_transactions ||= []
           sent_transactions << tx.to_hash(with_address: true)
+
+          #transactions = MastercoinWallet.config.get_key("bitcoin_transactions")
+          #transactions ||= []
+          #transactions << tx
+          #transactions = MastercoinWallet.config.set_key!("bitcoin_transactions", transactions)
+
 
           MastercoinWallet.config.set_key!(:created_transactions, sent_transactions)
 
