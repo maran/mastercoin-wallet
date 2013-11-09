@@ -32,8 +32,6 @@ module MastercoinWallet
 
       @rows = []
 
-      #createBalanceOverview()
-
       @recentTransactions = findChild(Qt::TreeWidget, "overviewTree")
       @recentTransactions.setColumnWidth(0,300)
       @recentTransactions.setColumnWidth(1,50)
