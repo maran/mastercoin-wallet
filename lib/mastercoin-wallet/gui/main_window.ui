@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -19,343 +19,345 @@
   <property name="windowTitle">
    <string>New Purchase Offer</string>
   </property>
-  <widget class="QTabWidget" name="mainTab">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>731</width>
-     <height>451</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="currentIndex">
-    <number>0</number>
-   </property>
-   <widget class="QWidget" name="tab">
-    <attribute name="title">
-     <string>Dashboard</string>
-    </attribute>
-    <widget class="QGroupBox" name="balanceGroup">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>0</y>
-       <width>201</width>
-       <height>111</height>
-      </rect>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTabWidget" name="mainTab">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <property name="title">
-      <string>Balances</string>
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <widget class="QLabel" name="mscBalanceLabel">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>30</y>
-        <width>181</width>
-        <height>19</height>
-       </rect>
+     <widget class="QWidget" name="tab">
+      <property name="enabled">
+       <bool>true</bool>
       </property>
-      <property name="text">
-       <string>Updating MSC balance</string>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
+      <attribute name="title">
+       <string>Dashboard</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item alignment="Qt::AlignTop">
+          <widget class="QGroupBox" name="balanceGroup">
+           <property name="title">
+            <string>Balances</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="QLabel" name="mscBalanceLabel">
+              <property name="text">
+               <string>Updating MSC balance</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="tMscBalanceLabel">
+              <property name="text">
+               <string>Updating test MSC balance</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="bitcoinLabel">
+              <property name="text">
+               <string>Updating Bitcoin balance</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="topMargin">
+            <number>2</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Mastercoin wallet for</string>
+             </property>
+            </widget>
+           </item>
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="mscAddressLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <family>Verdana</family>
+               <pointsize>24</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>MSC Address</string>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTreeWidget" name="overviewTree">
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+         <property name="columnCount">
+          <number>5</number>
+         </property>
+         <column>
+          <property name="text">
+           <string>Address</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Amount</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Type</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Currency</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Date</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="simpleSendButton">
+           <property name="text">
+            <string>new Simple Send</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </widget>
-     <widget class="QLabel" name="tMscBalanceLabel">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>50</y>
-        <width>171</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Updating test MSC balance</string>
-      </property>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Distributed exchange</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QSplitter" name="splitter">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <widget class="QWidget" name="layoutWidget">
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>&lt;h2&gt;Order book&lt;/h2&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTreeWidget" name="orderTree">
+             <property name="toolTip">
+              <string>Double click to create a purchase offer from this Selling Offer</string>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+             <column>
+              <property name="text">
+               <string>Seller</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Currency</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Units available</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Price per coin</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Required fee</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Date</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QLabel" name="label_4">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Hint: You can double click to create a Purchase Offer for an item in the order book</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="sellingButton">
+               <property name="text">
+                <string>New Selling Offer</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="layoutWidget_2">
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>&lt;h2&gt;My purchase offers&lt;/h2&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTreeWidget" name="purchaseTree">
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+             <column>
+              <property name="text">
+               <string>Offer address</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Amount</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Bitcoin amount</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Currency</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Offer status</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Date</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QLabel" name="label_5">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Hint: You can double click to send the required Bitcoins for an accepted Purchase offer that's waiting on payment</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="purchaseButton">
+               <property name="text">
+                <string>New Purchase Offer</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
      </widget>
-     <widget class="QLabel" name="bitcoinLabel">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>70</y>
-        <width>171</width>
-        <height>19</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Updating Bitcoin balance</string>
-      </property>
-     </widget>
     </widget>
-    <widget class="QLabel" name="mscAddressLabel">
-     <property name="geometry">
-      <rect>
-       <x>220</x>
-       <y>40</y>
-       <width>491</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Verdana</family>
-       <pointsize>24</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>MSC Address</string>
-     </property>
-    </widget>
-    <widget class="QTreeWidget" name="overviewTree">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>120</y>
-       <width>711</width>
-       <height>251</height>
-      </rect>
-     </property>
-     <property name="sortingEnabled">
-      <bool>true</bool>
-     </property>
-     <property name="columnCount">
-      <number>5</number>
-     </property>
-     <column>
-      <property name="text">
-       <string>Address</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Amount</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Type</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Currency</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Date</string>
-      </property>
-     </column>
-    </widget>
-    <widget class="QPushButton" name="simpleSendButton">
-     <property name="geometry">
-      <rect>
-       <x>580</x>
-       <y>380</y>
-       <width>141</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>new Simple Send</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_3">
-     <property name="geometry">
-      <rect>
-       <x>220</x>
-       <y>20</y>
-       <width>231</width>
-       <height>19</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Mastercoin wallet for</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_2">
-    <attribute name="title">
-     <string>Distributed exchange</string>
-    </attribute>
-    <widget class="QTreeWidget" name="orderTree">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>701</width>
-       <height>131</height>
-      </rect>
-     </property>
-     <property name="toolTip">
-      <string>Double click to create a purchase offer from this Selling Offer</string>
-     </property>
-     <property name="sortingEnabled">
-      <bool>true</bool>
-     </property>
-     <column>
-      <property name="text">
-       <string>Seller</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Currency</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Units available</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Price per coin</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Required fee</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Date</string>
-      </property>
-     </column>
-    </widget>
-    <widget class="QLabel" name="label">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>-2</y>
-       <width>321</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>&lt;h2&gt;Order book&lt;/h2&gt;</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sellingButton">
-     <property name="geometry">
-      <rect>
-       <x>580</x>
-       <y>160</y>
-       <width>131</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>New Selling Offer</string>
-     </property>
-    </widget>
-    <widget class="QTreeWidget" name="purchaseTree">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>250</y>
-       <width>701</width>
-       <height>131</height>
-      </rect>
-     </property>
-     <property name="sortingEnabled">
-      <bool>true</bool>
-     </property>
-     <column>
-      <property name="text">
-       <string>Offer address</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Amount</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Bitcoin amount</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Currency</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Offer status</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Date</string>
-      </property>
-     </column>
-    </widget>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>210</y>
-       <width>411</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>&lt;h2&gt;My purchase offers&lt;/h2&gt;</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="purchaseButton">
-     <property name="geometry">
-      <rect>
-       <x>560</x>
-       <y>380</y>
-       <width>151</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>New Purchase Offer</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>160</y>
-       <width>521</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Hint: You can double click to create a Purchase Offer for an item in the order book</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_5">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>380</y>
-       <width>521</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Hint: You can double click to send the required Bitcoins for an accepted Purchase offer that's waiting on payment</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </widget>
-  </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
