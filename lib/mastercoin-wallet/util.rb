@@ -1,7 +1,8 @@
 module MastercoinWallet
   module Util
     def get_date(date)
-      Time.strptime(date, "%Y-%m-%dT%H:%M:%S.000Z").strftime("%d-%m-%Y %H:%M:%S")
+      time = Time.strptime(date, "%Y-%m-%dT%H:%M:%S.000Z").strftime("%d-%m-%Y %H:%M:%S")
+      #Qt::Date.new(time.strftime("%Y").to_i, time.strftime("%m").to_i, time.strftime("%d").to_i)
     end
 
     def coin_name(currency_id)

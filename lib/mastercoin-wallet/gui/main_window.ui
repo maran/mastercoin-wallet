@@ -115,7 +115,7 @@
              <property name="font">
               <font>
                <family>Verdana</family>
-               <pointsize>24</pointsize>
+               <pointsize>21</pointsize>
               </font>
              </property>
              <property name="text">
@@ -136,7 +136,7 @@
           <bool>true</bool>
          </property>
          <property name="columnCount">
-          <number>5</number>
+          <number>6</number>
          </property>
          <column>
           <property name="text">
@@ -161,6 +161,11 @@
          <column>
           <property name="text">
            <string>Date</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Height</string>
           </property>
          </column>
         </widget>

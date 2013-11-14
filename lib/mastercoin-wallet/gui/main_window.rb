@@ -34,7 +34,9 @@ module MastercoinWallet
 
       @recentTransactions = findChild(Qt::TreeWidget, "overviewTree")
       @recentTransactions.setColumnWidth(0,300)
+      @recentTransactions.hideColumn(5)
       @recentTransactions.setColumnWidth(1,50)
+      @recentTransactions.sortByColumn(5)
 
       @order_book =  findChild(Qt::TreeWidget, "orderTree")
       @order_book.setColumnWidth(0,280)
@@ -121,7 +123,8 @@ module MastercoinWallet
       row.setText(1, item["amount"])
       row.setText(2, type)
       row.setText(3, coin_name(item["currency_id"]))
-      row.setText(4, get_date(item["tx_date"]))
+      row.setText(4, ("%s" % get_date(item["tx_date"])))
+      row.setText(5, item["block_height"].to_s)
       return row
     end
 
@@ -132,18 +135,18 @@ module MastercoinWallet
       row.setText(2, item["amount_available"])
       row.setText(3, "#{item["price_per_coin"]} BTC")
       row.setText(4, item["required_fee"])
-      row.setText(5, item["tx_date"])
+      row.setText(5, get_date(item["tx_date"]))
       return row
     end
 
     def add_purchase_row(item)
       row = Qt::TreeWidgetItem.new
       row.setText(0, item["selling_offer"]["address"])
-      row.setText(1, item["amount"])
+      row.setText(1, item["accepted_amount"])
       row.setText(2, item["bitcoins_required"])
       row.setText(3, coin_name(item["currency_id"]))
       row.setText(4, item["status_text"])
-      row.setText(5, item["tx_date"])
+      row.setText(5, get_date(item["tx_date"]))
       return row
     end
 

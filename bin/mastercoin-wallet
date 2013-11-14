@@ -8,7 +8,7 @@ app.setWindowIcon(Qt::Icon.new(":/logo.svg"))
 
 if MastercoinWallet.config.has_key?(:private_key)
   dialog = MastercoinWallet::MainWindow.new
-  dialog.setMinimumSize(746,469)
+  dialog.setMinimumSize(786,469)
   dialog.exec
 else
   dialog = MastercoinWallet::FirstRunWindow.new

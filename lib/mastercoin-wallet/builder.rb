@@ -110,12 +110,8 @@ module MastercoinWallet
       used_outputs = MastercoinWallet.config.created_transactions.collect{|x| x["in"][0]["prev_out"] }
       usuable_outputs = MastercoinWallet.config.spendable_outputs.find{|x| BigDecimal.new(x[:value]) > BigDecimal.new(required_amount.to_s) }
 
-      #puts "Found these total: #{usuable_outputs}"
-      #puts "These are used #{used_outputs}"
-
       usuable_outputs = [usuable_outputs] if usuable_outputs.is_a?(Hash)
       usuable_outputs.reject!{|x| puts x; used_outputs.include?(x["prev_out"])}
-      #puts "Left with these: #{usuable_outputs}"
 
       if usuable_outputs.empty?
         # Outputs are saved in order so the last output should always the one that's unused, make sure it's an output for thist address and that it's big enough
@@ -266,12 +262,6 @@ module MastercoinWallet
           sent_transactions = MastercoinWallet.config.get_key("created_transactions")
           sent_transactions ||= []
           sent_transactions << tx.to_hash(with_address: true)
-
-          #transactions = MastercoinWallet.config.get_key("bitcoin_transactions")
-          #transactions ||= []
-          #transactions << tx
-          #transactions = MastercoinWallet.config.set_key!("bitcoin_transactions", transactions)
-
 
           MastercoinWallet.config.set_key!(:created_transactions, sent_transactions)
 
