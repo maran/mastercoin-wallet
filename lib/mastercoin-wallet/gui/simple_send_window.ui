@@ -35,7 +35,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Masteroin address</string>
+         <string>Mastercoin address</string>
         </property>
        </widget>
       </item>
@@ -91,9 +91,9 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>10</y>
+     <y>5</y>
      <width>151</width>
-     <height>16</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">

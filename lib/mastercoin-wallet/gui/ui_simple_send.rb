@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'simple_send_window.ui'
 **
-** Created: Sat Nov 2 14:56:54 2013
+** Created: Fri Nov 15 08:31:53 2013
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -82,7 +82,7 @@ class Ui_SimpleSend
 
     @label = Qt::Label.new(simpleSend)
     @label.objectName = "label"
-    @label.geometry = Qt::Rect.new(20, 10, 151, 16)
+    @label.geometry = Qt::Rect.new(20, 5, 151, 21)
     @submit_button = Qt::PushButton.new(simpleSend)
     @submit_button.objectName = "submit_button"
     @submit_button.enabled = false
@@ -105,7 +105,7 @@ class Ui_SimpleSend
     def retranslateUi(simpleSend)
     simpleSend.windowTitle = Qt::Application.translate("SimpleSend", "New Simple Send", nil, Qt::Application::UnicodeUTF8)
     @amount_input.placeholderText = ''
-    @label_2.text = Qt::Application.translate("SimpleSend", "Masteroin address", nil, Qt::Application::UnicodeUTF8)
+    @label_2.text = Qt::Application.translate("SimpleSend", "Mastercoin address", nil, Qt::Application::UnicodeUTF8)
     @label_3.text = Qt::Application.translate("SimpleSend", "Amount", nil, Qt::Application::UnicodeUTF8)
     @label_4.text = Qt::Application.translate("SimpleSend", "Currency", nil, Qt::Application::UnicodeUTF8)
     @address_input.placeholderText = ''

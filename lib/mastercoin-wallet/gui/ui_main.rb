@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'main_window.ui'
 **
-** Created: Thu Nov 14 13:28:58 2013
+** Created: Fri Nov 15 08:31:52 2013
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -117,7 +117,7 @@ class Ui_MainWindow
     @mscAddressLabel.sizePolicy = @sizePolicy2
     @font1 = Qt::Font.new
     @font1.family = "Verdana"
-    @font1.pointSize = 24
+    @font1.pointSize = 21
     @mscAddressLabel.font = @font1
     @mscAddressLabel.textInteractionFlags = Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse
 
