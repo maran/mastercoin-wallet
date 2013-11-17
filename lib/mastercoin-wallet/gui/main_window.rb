@@ -132,7 +132,7 @@ module MastercoinWallet
       row = Qt::TreeWidgetItem.new
       row.setText(0, item["address"])
       row.setText(1, coin_name(item["currency_id"]))
-      row.setText(2, item["amount_available"])
+      row.setText(2, item["amount_available"].to_s)
       row.setText(3, "#{item["price_per_coin"]} BTC")
       row.setText(4, item["required_fee"])
       row.setText(5, get_date(item["tx_date"]))
