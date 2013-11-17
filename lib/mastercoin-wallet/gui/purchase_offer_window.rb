@@ -26,8 +26,8 @@ module MastercoinWallet
       @fee_input.validator = Qt::DoubleValidator.new(0.00000001, 10000,8, @fee_input)
 
       @currency_select = findChild(Qt::ComboBox, "currency_box")
-      # Dont allow real coins for now
-      #      @currency_select.addItem(tr("Mastercoin"))
+
+      @currency_select.addItem(tr("Mastercoin"))
       @currency_select.addItem(tr("Test Mastercoin"))
 
       @submit.enabled = true
@@ -40,6 +40,14 @@ module MastercoinWallet
       @receiving_address = @address_input.text()
       @password = @password_input.text()
       @fee = @fee_input.text()
+
+      if @currency_select.currentText() == "Mastercoin"
+        currency_id = 1
+      elsif @currency_select.currentText() == "Test Mastercoin"
+        currency_id = 2
+      else
+        raise "How did you get here? ^_^"
+      end
 
       unless Bitcoin::valid_address?(@receiving_address)
         Qt::MessageBox.critical(self, tr("Invalid address"),

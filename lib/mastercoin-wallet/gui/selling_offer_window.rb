@@ -28,8 +28,7 @@ module MastercoinWallet
 
 
       @currency_select = findChild(Qt::ComboBox, "currency_box")
-      # Dont allow real coins for now
-      #      @currency_select.addItem(tr("Mastercoin"))
+      #@currency_select.addItem(tr("Mastercoin"))
       @currency_select.addItem(tr("Test Mastercoin"))
 
       @submit.enabled = true
@@ -44,9 +43,17 @@ module MastercoinWallet
       @time = @time_input.text()
       @password = @password_input.text()
 
+      if @currency_select.currentText() == "Mastercoin"
+        currency_id = 1
+      elsif @currency_select.currentText() == "Test Mastercoin"
+        currency_id = 2
+      else
+        raise "How did you get here? ^_^"
+      end
+
       unless @time.empty? || @fee_amount.empty? || @btc_amount.empty? || @amount.empty? || @password.empty?
 
-        data_keys = Mastercoin::SellingOffer.new(currency_id: 2, amount: (@amount.to_f * 1e8).to_i, bitcoin_amount: (@btc_amount.to_f * 1e8).to_i, time_limit: @time.to_i, transaction_fee: (@fee_amount.to_f * 1e8).to_i).encode_to_compressed_public_key(MastercoinWallet.config.address)
+        data_keys = Mastercoin::SellingOffer.new(currency_id: currency_id, amount: (@amount.to_f * 1e8).to_i, bitcoin_amount: (@btc_amount.to_f * 1e8).to_i, time_limit: @time.to_i, transaction_fee: (@fee_amount.to_f * 1e8).to_i).encode_to_compressed_public_key(MastercoinWallet.config.address)
 
         create_transaction_with_keys(data_keys)
         close()
