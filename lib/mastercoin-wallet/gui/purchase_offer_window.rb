@@ -55,7 +55,7 @@ module MastercoinWallet
       end
 
       unless @receiving_address.empty? || @amount.empty? || @password.empty? || @fee.empty?
-        data_keys = Mastercoin::PurchaseOffer.new(currency_id: currency_id, amount: (@amount.to_f * 1e8).to_i).encode_to_compressed_public_key(MastercoinWallet.config.address)
+        data_keys = Mastercoin::PurchaseOffer.new(currency_id: currency_id, amount: (BigDecimal.new(@amount.to_s) * 1e8).to_i).encode_to_compressed_public_key(MastercoinWallet.config.address)
         create_transaction_with_keys(data_keys, force_fee: @fee)
         close()
       else

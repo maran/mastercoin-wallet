@@ -53,7 +53,7 @@ module MastercoinWallet
 
       unless @time.empty? || @fee_amount.empty? || @btc_amount.empty? || @amount.empty? || @password.empty?
 
-        data_keys = Mastercoin::SellingOffer.new(currency_id: currency_id, amount: (@amount.to_f * 1e8).to_i, bitcoin_amount: (@btc_amount.to_f * 1e8).to_i, time_limit: @time.to_i, transaction_fee: (@fee_amount.to_f * 1e8).to_i).encode_to_compressed_public_key(MastercoinWallet.config.address)
+        data_keys = Mastercoin::SellingOffer.new(currency_id: currency_id, amount: (BigDecimal.new(@amount.to_s) * 1e8).to_i, bitcoin_amount: (@btc_amount.to_f * 1e8).to_i, time_limit: @time.to_i, transaction_fee: (@fee_amount.to_f * 1e8).to_i).encode_to_compressed_public_key(MastercoinWallet.config.address)
 
         create_transaction_with_keys(data_keys)
         close()
