@@ -110,6 +110,12 @@ module MastercoinWallet
       used_outputs = MastercoinWallet.config.created_transactions.collect{|x| x["in"][0]["prev_out"] }
       usuable_outputs = MastercoinWallet.config.spendable_outputs.find{|x| BigDecimal.new(x[:value]) > BigDecimal.new(required_amount.to_s) }
 
+      unless usuable_outputs
+          Qt::MessageBox.critical(self, tr("Could not send transaction"),
+                                 tr("It appears there are no spendable outputs for this address that are big enough to transmit this transaction. Please consolidate some coins and send them to your Mastercoin address."))
+          return
+      end
+
       usuable_outputs = [usuable_outputs] if usuable_outputs.is_a?(Hash)
       usuable_outputs.reject!{|x| puts x; used_outputs.include?(x["prev_out"])}
 
