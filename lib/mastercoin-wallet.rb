@@ -1,3 +1,4 @@
+require 'thread'
 require 'Qt'
 require 'httparty'
 require 'qtuitools'

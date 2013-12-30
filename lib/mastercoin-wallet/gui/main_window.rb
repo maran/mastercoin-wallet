@@ -142,8 +142,8 @@ module MastercoinWallet
     def add_purchase_row(item)
       row = Qt::TreeWidgetItem.new
       row.setText(0, item["selling_offer"]["address"])
-      row.setText(1, item["accepted_amount"])
-      row.setText(2, item["bitcoins_required"])
+      row.setText(1, item["accepted_amount"].to_s)
+      row.setText(2, item["bitcoins_required"].to_s)
       row.setText(3, coin_name(item["currency_id"]))
       row.setText(4, item["status_text"])
       row.setText(5, get_date(item["tx_date"]))
