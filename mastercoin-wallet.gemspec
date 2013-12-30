@@ -5,14 +5,14 @@
 
 Gem::Specification.new do |s|
   s.name = "mastercoin-wallet"
-  s.version = "0.0.12"
+  s.version = "0.0.13"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Maran"]
   s.date = "2013-12-30"
   s.description = "Mastercoin wallet using QT bindings to create a useful gui wallet"
   s.email = "maran.hidskes@gmail.com"
-  s.executables = ["mastercoin-console", "mastercoin-wallet"]
+  s.executables = ["mastercoin-wallet", "wallet-console"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
@@ -26,8 +26,8 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
-    "bin/mastercoin-console",
     "bin/mastercoin-wallet",
+    "bin/wallet-console",
     "lib/.DS_Store",
     "lib/mastercoin-wallet.rb",
     "lib/mastercoin-wallet/builder.rb",
