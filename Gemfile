@@ -1,5 +1,5 @@
 source "http://rubygems.org"
-gem 'mastercoin-ruby','~>0.1.0'
+gem 'mastercoin-ruby','~>0.2.4'
 gem 'qtbindings'
 gem 'httparty'
 gem 'active_support'
