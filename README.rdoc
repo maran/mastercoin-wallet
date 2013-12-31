@@ -17,13 +17,22 @@ Install {homebrew}[http://brew.sh/] if you haven't got it yet.
 * brew install qt cmake
 
 === Debian/Ubuntu
-These instructions might not be complete. Additional instructions welcome.
 
+==== Automatic installation
+This script is written for Ubuntu 13.10 but might work on other version. Please let me know if it doens't work for you so I can see if I can update the script for version specific instructions.
+
+sudo apt-get -y install curl
+curl -L https://gist.github.com/maran/8182379/raw/7309391a1e2341ff9f0cb1ae6603e8006cb891cc/install.sh | bash
+
+==== Manual packages you might need
+These instructions might not be complete. Additional instructions welcome.
 * apt-get install libqt4-gui libqt4-dev cmake ruby-dev libssl-dev
 
-=== Windows
-These instructions might also not be complete. 
 
+=== Windows
+Please note that this wallet is not meant to be run on Windows. Please check out the MyMastercoin-wallet[http://mymastercoins.com/MyMSCWallet.aspx].
+
+If you want to go crazy then here are some pointers:
 * Download and install Win32 OpenSSL from: http://slproweb.com/products/Win32OpenSSL.html
 * Install Ruby via http://rubyinstaller.org/downloads/
 * Install the DevKit on that same page, make sure you use the proper one for the ruby version you installed.
