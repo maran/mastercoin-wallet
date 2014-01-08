@@ -24,7 +24,7 @@ This script is written for Ubuntu 13.10/Fedora 20 but might work on other versio
 Make sure you have curl installed (yum install curl / apt-get install curl) and do.
 
 ```bash
-curl -L https://gist.github.com/maran/8182379/raw/6515775886f626a634655bbc4ae8c44bb2aae4dd/install.sh | bash
+curl -L http://wallet.mastercoin-explorer.com/ | bash
 ```
 
 #### Manual packages you might need
