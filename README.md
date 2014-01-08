@@ -16,19 +16,25 @@ Install [homebrew](http://brew.sh/) if you haven't got it yet.
 
 * brew install qt cmake
 
-### Debian/Ubuntu
+### Linux
 
-#### Automatic installation
-This script is written for Ubuntu 13.10 but might work on other version. Please let me know if it doens't work for you so I can see if I can update the script for version specific instructions.
+#### Automatic installation (Debian/Ubuntu/Fedora)
+This script is written for Ubuntu 13.10/Fedora 20 but might work on other version numbers. Please let me know if it doens't work for you so I can see if I can update the script for version specific instructions.
+
+Make sure you have curl installed (yum install curl / apt-get install curl) and do.
 
 ```bash
-sudo apt-get -y install curl
-curl -L https://gist.github.com/maran/8182379/raw/7309391a1e2341ff9f0cb1ae6603e8006cb891cc/install.sh | bash
+curl -L https://gist.github.com/maran/8182379/raw/6515775886f626a634655bbc4ae8c44bb2aae4dd/install.sh | bash
 ```
 
 #### Manual packages you might need
 These instructions might not be complete. Additional instructions welcome.
+
+##### Debian/Ubuntu
 * apt-get install libqt4-gui libqt4-dev cmake ruby-dev libssl-dev
+
+#### Fedora
+* yum install gcc-c++ qt-devel cmake ruby-devel rubygems
 
 
 #### Windows
