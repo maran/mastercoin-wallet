@@ -8,6 +8,7 @@ module MastercoinWallet
     def initialize(parent=nil)
       super(parent)
       setWindowTitle(tr("Mastercoin wallet - First run"))
+      setWindowFlags(Qt::WindowCloseButtonHint)
 
       @ui = Ui_FirstRunWindow.new
       @ui.setupUi(self)

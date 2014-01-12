@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 $:.unshift( File.expand_path("../../lib", __FILE__) )
+require 'openssl'
 require 'mastercoin-wallet'
 
 app = Qt::Application.new(ARGV)
