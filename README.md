@@ -36,6 +36,16 @@ These instructions might not be complete. Additional instructions welcome.
 #### Fedora
 * yum install gcc-c++ qt-devel cmake ruby-devel rubygems
 
+Please note that the default GTK theme (Adwaita) on Fedora 20 is not compatible with the ruby-qt combination used by this wallet.  While the wallet will still function, some graphical elements may not be visible.  To fix this, you can change the GTK theme using the Gnome Tweak Tool:
+```bash
+yum install gnome-tweak-tool
+```
+Running gnome-tweak-tool does not work from the command line, so use ALT+F2 then type the command OR navigate to the icon from
+Activities->Show Applications->Utilities->Tweak Tool
+From there you can change the GTK+ theme.  The "HighContrast" theme is known to work with the wallet as well as the "Greybird" theme.  You may find the Greybird theme more pleasant.  If you don't see the Greybird theme as an option, you can install it:
+```bash
+yum install greybird-gtk2-theme greybird-gtk3-theme
+```
 
 #### Windows
 Please note that this wallet is not meant to be run on Windows. Please check out the [MyMastercoin wallet](http://mymastercoins.com/MyMSCWallet.aspx).
