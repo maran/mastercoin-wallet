@@ -1,4 +1,6 @@
-# Mastercoin wallet
+# Please note: This wallet is depcrecated, it won't work any longer.
+
+## Mastercoin wallet
 
 Mastercoin wallet implementation in Ruby using QT bindings.
 
@@ -17,15 +19,6 @@ Install [homebrew](http://brew.sh/) if you haven't got it yet.
 * brew install qt cmake
 
 ### Linux
-
-#### Automatic installation (Debian/Ubuntu/Fedora)
-This script is written for Ubuntu 13.10/Fedora 20 but might work on other version numbers. Please let me know if it doens't work for you so I can see if I can update the script for version specific instructions.
-
-Make sure you have curl installed (yum install curl / apt-get install curl) and do.
-
-```bash
-curl -L http://wallet.mastercoin-explorer.com/ | bash
-```
 
 #### Manual packages you might need
 These instructions might not be complete. Additional instructions welcome.
